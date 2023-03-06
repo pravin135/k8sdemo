@@ -1,6 +1,6 @@
 pipeline {
     agent {
-           label 'docker-agent-without-svc'
+           label 'UAT'
              }
    environment {
       PROJECT_ID = 'my-practice-project-377116'
