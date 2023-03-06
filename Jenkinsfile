@@ -44,13 +44,18 @@ pipeline {
       }
       stage('Push Docker Image') {
          steps {
-            script {
-               docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                        myimage.push("${env.BUILD_ID}")
-               }
+            withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+            // some block
+            }
+
+            sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+            sh 'docker push praveenbabu135/k8sdemo:${env.BUILD_ID}'
+            // script {
+            //    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+            //             myimage.push("${env.BUILD_ID}")
+            //    }
             }
          }
-      }
 
       stage('Deploy to K8s') {
          steps {
@@ -62,5 +67,5 @@ pipeline {
             echo 'Deployment Finished ...'
          }
       }
+      }
    }
-}
