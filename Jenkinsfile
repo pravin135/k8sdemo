@@ -6,7 +6,7 @@ pipeline {
       PROJECT_ID = 'my-practice-project-377116'
       CLUSTER_NAME = 'my-practice-project-377116-gke'
       LOCATION = 'us-west1-a'
-      CREDENTIALS_ID = Filecredentials('my-practice-project')
+      CREDENTIALS_ID = credentials('gcp-auth-jenkins')
    }
 
    stages {
@@ -17,7 +17,7 @@ pipeline {
       }
       stage('creds test'){
             steps{
-               withCredentials([file(credentialsId: 'my-practice-project', variable: 'CREDENTIALS_ID')]) {
+               withCredentials([file(credentialsId: 'gcp-auth-jenkins', variable: 'CREDENTIALS_ID')]) {
     // some block
                }
             }
