@@ -1,7 +1,7 @@
 pipeline {
-    agent {
-           label 'UAT'
-             }
+   agent {
+      label 'UAT'
+   }
    environment {
       PROJECT_ID = 'my-practice-project-377116'
       CLUSTER_NAME = 'my-practice-project-377116-gke'
@@ -15,13 +15,13 @@ pipeline {
             checkout scm
             }
       }
-      stage('creds test'){
-            steps{
+      stage('creds test') {
+            steps {
                withCredentials([file(credentialsId: 'gcp-auth-jenkins', variable: 'CREDENTIALS_ID')]) {
-    // some block
+               // some block
                }
             }
-        }
+      }
 
       stage('Build') {
          steps {
@@ -39,9 +39,7 @@ pipeline {
       stage('Build Docker Image') {
             steps {
             sh 'whoami'
-            script {
-               myimage = docker.build("praveenbabu135/k8sdemo:${env.BUILD_ID}")
-            }
+            sh 'docker build -t praveenbabu135/k8sdemo:${env.BUILD_ID}'
             }
       }
       stage('Push Docker Image') {
