@@ -6,7 +6,7 @@ pipeline {
       PROJECT_ID = 'my-practice-project-377116'
       CLUSTER_NAME = 'my-practice-project-377116-gke'
       LOCATION = 'us-west1-a'
-      CREDENTIALS_ID = 'my-practice-project'
+      CREDENTIALS_ID = credentials('my-practice-project')
    }
 
    stages {
