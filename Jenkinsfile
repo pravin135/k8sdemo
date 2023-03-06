@@ -7,7 +7,7 @@ pipeline {
       CLUSTER_NAME = 'my-practice-project-377116-gke'
       LOCATION = 'us-west1-a'
       CREDENTIALS_ID = credentials('gcp-auth-jenkins')
-      DOCKER_REGISTRY = "docker.io"
+      DOCKER_REGISTRY = 'https://registry.hub.docker.com'
    }
 
    stages {
@@ -48,7 +48,6 @@ pipeline {
             withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
             // some block
             }
-
             sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY'
             sh 'docker push praveenbabu135/k8sdemo:${env.BUILD_ID}'
             // script {
