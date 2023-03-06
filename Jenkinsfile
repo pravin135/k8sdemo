@@ -39,7 +39,7 @@ pipeline {
       stage('Build Docker Image') {
             steps {
             sh 'whoami'
-            sh 'docker build -t praveenbabu135/k8sdemo:${env.BUILD_ID}'
+            sh "docker build -t praveenbabu135/k8sdemo:${env.BUILD_ID} ."
             }
       }
       stage('Push Docker Image') {
