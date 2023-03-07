@@ -53,7 +53,7 @@ pipeline {
       stage('Push image') {
          steps {
             script {
-               withDockerRegistry([ credentialsId: 'dockerhub', url: 'https://hub.docker.com/repository/docker/praveenbabu135/k8sdemo' ]) {
+               withDockerRegistry([ credentialsId: 'dockerhub', url: 'https://hub.docker.com' ]) {
                   dockerImage.push()
                }
             }
