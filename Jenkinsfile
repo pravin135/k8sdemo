@@ -1,6 +1,6 @@
 pipeline {
    agent {
-      label 'UAT'
+      label 'docker-mvn-kubectl'
    }
    environment {
       PROJECT_ID = 'my-practice-project-377116'
@@ -90,6 +90,7 @@ pipeline {
       stage('Delete Deployment YAML') {
          steps {
             step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+               sh "sed -i 's/tagversion/${env.BUILD_ID}/g' deployment.yaml"
                sh 'kubectl delete -f deployment.yaml'
             }
          }
