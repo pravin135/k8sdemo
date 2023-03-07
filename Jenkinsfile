@@ -51,13 +51,14 @@ pipeline {
       //       }
       // }
       stage('Push image') {
-         steps {
+            steps {
             script {
-               withDockerRegistry([ credentialsId: 'dockerhub', url: 'https://hub.docker.com' ]) {
-                  dockerImage.push()
+               docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                  //  myapp.push("latest")
+                  dockerImage.push("${env.BUILD_ID}")
                }
             }
-         }
+            }
       }
       // stage('Push Docker Image') {
       //    steps {
