@@ -18,6 +18,7 @@ spec:
    containers:
    - name: myapp
      image: praveenbabu135/k8sdemo:tagversion
+     imagePullPolicy: Always
      ports:
      - containerPort: 8080
 
