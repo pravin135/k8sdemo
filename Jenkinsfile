@@ -16,13 +16,13 @@ pipeline {
             checkout scm
             }
       }
-      stage('creds test') {
-            steps {
-               withCredentials([file(credentialsId: 'gcp-auth-jenkins', variable: 'CREDENTIALS_ID')]) {
-               // some block
-               }
-            }
-      }
+      // stage('creds test') {
+      //       steps {
+      //          withCredentials([file(credentialsId: 'gcp-auth-jenkins', variable: 'CREDENTIALS_ID')]) {
+      //          // some block
+      //          }
+      //       }
+      // }
 
       stage('Build') {
          steps {
