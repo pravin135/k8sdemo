@@ -86,5 +86,13 @@ pipeline {
             echo 'Deployment Finished ...'
          }
       }
+
+      stage('Delete Deployment YAML') {
+         steps {
+            step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+               sh 'kubectl delete -f deployment.yaml'
+            }
+         }
+      }
    }
-}
+
