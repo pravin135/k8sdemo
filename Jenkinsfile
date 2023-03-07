@@ -37,24 +37,28 @@ pipeline {
             sh 'mvn test'
             }
       }
-       stage('Build image') {
-         steps{
-       dockerImage = docker.build("praveenbabu135/k8sdemo:${env.BUILD_ID}")
-       }
-       }
-       // stage('Build Docker Image') {
-       //       steps {
-       //       sh 'whoami'
-       //       sh "docker build -t praveenbabu135/k8sdemo:${env.BUILD_ID} ."
-       //       }
-       // }
-       stage('Push image') {
-         steps{
-        withDockerRegistry([ credentialsId: "dockerhub", url: "https://hub.docker.com/repository/docker/praveenbabu135/k8sdemo" ]) {
-        dockerImage.push()
-        }
-       }
-   }
+      stage('Build image') {
+         steps {
+            script {
+               dockerImage = docker.build("praveenbabu135/k8sdemo:${env.BUILD_ID}")
+            }
+         }
+      }
+      // stage('Build Docker Image') {
+      //       steps {
+      //       sh 'whoami'
+      //       sh "docker build -t praveenbabu135/k8sdemo:${env.BUILD_ID} ."
+      //       }
+      // }
+      stage('Push image') {
+         steps {
+            script {
+               withDockerRegistry([ credentialsId: 'dockerhub', url: 'https://hub.docker.com/repository/docker/praveenbabu135/k8sdemo' ]) {
+                  dockerImage.push()
+               }
+            }
+         }
+      }
       // stage('Push Docker Image') {
       //    steps {
       //       // withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
@@ -81,5 +85,5 @@ pipeline {
             echo 'Deployment Finished ...'
          }
       }
-}
+   }
 }
