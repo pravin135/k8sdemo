@@ -37,27 +37,36 @@ pipeline {
             sh 'mvn test'
             }
       }
-      stage('Build Docker Image') {
-            steps {
-            sh 'whoami'
-            sh "docker build -t praveenbabu135/k8sdemo:${env.BUILD_ID} ."
-            }
-      }
-      stage('Push Docker Image') {
-         steps {
-            // withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-            // // some block
-            // }
-            script {
-               docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                        // myimage.push("${env.BUILD_ID}")
+       stage('Build image') {
+       dockerImage = docker.build("praveenbabu135/k8sdemo:${env.BUILD_ID}")
+       }
+       // stage('Build Docker Image') {
+       //       steps {
+       //       sh 'whoami'
+       //       sh "docker build -t praveenbabu135/k8sdemo:${env.BUILD_ID} ."
+       //       }
+       // }
+       stage('Push image') {
+        withDockerRegistry([ credentialsId: "dockerhub", url: "" ]) {
+        dockerImage.push()
+        }
+       }
+   }
+      // stage('Push Docker Image') {
+      //    steps {
+      //       // withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+      //       // // some block
+      //       // }
+      //       script {
+      //          docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+      //                   // myimage.push("${env.BUILD_ID}")
 
-               }
-            }
-               //   sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY'
-                 sh 'docker push praveenbabu135/k8sdemo:${env.BUILD_ID}'
-            }
-         }
+      //          }
+      //       }
+      //          //   sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY'
+      //            sh 'docker push praveenbabu135/k8sdemo:${env.BUILD_ID}'
+      //       }
+      //    }
 
       stage('Deploy to K8s') {
          steps {
@@ -69,5 +78,4 @@ pipeline {
             echo 'Deployment Finished ...'
          }
       }
-      }
-   }
+}
