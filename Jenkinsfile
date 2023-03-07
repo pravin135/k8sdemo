@@ -38,7 +38,9 @@ pipeline {
             }
       }
        stage('Build image') {
+         steps{
        dockerImage = docker.build("praveenbabu135/k8sdemo:${env.BUILD_ID}")
+       }
        }
        // stage('Build Docker Image') {
        //       steps {
@@ -47,7 +49,8 @@ pipeline {
        //       }
        // }
        stage('Push image') {
-        withDockerRegistry([ credentialsId: "dockerhub", url: "" ]) {
+         steps{
+        withDockerRegistry([ credentialsId: "dockerhub", url: "https://hub.docker.com/repository/docker/praveenbabu135/k8sdemo" ]) {
         dockerImage.push()
         }
        }
